@@ -9,6 +9,8 @@ on:
 jobs:
   build-application:
     runs-on: "ubuntu-latest"
+    permissions:
+      contents: write
 
     steps:
 
@@ -29,8 +31,14 @@ jobs:
       - name: Run program
         run: "./scratch"
 
-      - name: Create release
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: scratch
           path: ./scratch
+
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "scratch*"
+          bodyFile: "Enjoy this program!"
